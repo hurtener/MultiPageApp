@@ -1,20 +1,24 @@
 
 header(class="st-header q-pa-sm",
     h1(draggable="true", class="st-header__title text-h3",
-        "Neural network training"
+        "Time Series Analysis"
     )
 )
 cell(class="row", [
     cell(class="st-col col-6 col-sm st-module", [
         h3("Parameters"),
-        p("Layer 1 neurons"),
-        slider(1:1:64, Symbol("layer_neurons[2]"); label=true),
-        p("Layer 2 neurons"),
-        slider(1:1:64, Symbol("layer_neurons[3]"); label=true),
-        p("Train samples"),
-        slider(1:1:500, :N_train; label=true),
-        p("Epochs"),
-        slider(1:1:1000, :epochs; label=true),
+        p("Upload file to add to Database"),
+        fileinput("Upload CSV", :uploaded_file),
+        p("Select the aggregation level"),
+        select(:grouping_type, options=["empresa", "areayacimiento", "cuenca", "provincia", "idpozo"], label="Grouping Type"),
+        p("Group to train"),
+        select(:grouping_value, :grouping_options, label="Grouping Value"),
+        p("Start Date"),
+        date(:start_date, label="Start Date"),
+        p("End Date"),
+        date(:end_date, label="End Date"),
+        p("Forecasting Range"),
+        slider(1:1:36, :forecast_periods, label="Forecast Periods (Months)"),
         br(),
         cell(class="row",
             cell(class="st-col col-6 col-sm", [
@@ -24,6 +28,6 @@ cell(class="row", [
         )
     ]),
     cell(class="st-col col-6 col-sm st-module",
-        plot(:traces, layout=:layout)
+        plot(:plot_data)
     )
 ])

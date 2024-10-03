@@ -40,6 +40,6 @@ const data = CSV.read("data/HousingData.csv", DataFrame, missingstring="NA") |> 
     )
 end
 
-# @page("/", "app.jl.html")
-#= @page("/", "ui.jl") =#
+@page("/eda", "EDA_ui.jl.html")
+@page("/", "EDA_ui.jl") #
 end

@@ -1,20 +1,30 @@
 <header class="st-header q-pa-sm">
-    <h1 draggable="true" class="st-header__title text-h3">Neural network training</h1>
+    <h1 draggable="true" class="st-header__title text-h3">Time Series Analysis</h1>
 </header>
-<div class="row st-col ">
-    <div class="st-col col-6 col-sm st-module st-col ">
+<div class="row st-col">
+    <div class="st-col col-6 col-sm st-module st-col">
         <h3>Parameters</h3>
-        <p>Layer 1 neurons</p><q-slider :min=1 v-model="layer_neurons[2]" label :max=64 :step=1></q-slider>
-        <p>Layer 2 neurons</p><q-slider :min=1 v-model="layer_neurons[3]" label :max=64 :step=1></q-slider>
-        <p>Train samples</p><q-slider :min=1 v-model="N_train" label :max=500 :step=1></q-slider>
-        <p>Epochs</p><q-slider :min=1 v-model="epochs" label :max=1000 :step=1></q-slider><br />
-        <div class="row st-col ">
-            <div class="st-col col-6 col-sm st-col "><q-btn color="primary" label="TRAIN" v-on:click="train = !train"
-                    :loading="training" text-color="black"></q-btn><q-btn color="primary" label="SAVE"
-                    v-on:click="save = !save" text-color="black"></q-btn></div>
+        <p>Upload file to add to Database</p>
+        <q-file v-model="uploaded_file" label="Upload CSV"></q-file>
+        <p>Select the aggregation level</p>
+        <q-select v-model="grouping_type" :options="['empresa', 'areayacimiento', 'cuenca', 'provincia', 'idpozo']" label="Grouping Type"></q-select>
+        <p>Group to train</p>
+        <q-select v-model="grouping_value" :options="grouping_options" label="Grouping Value"></q-select>
+        <p>Start Date</p>
+        <q-date v-model="start_date" label="Start Date"></q-date>
+        <p>End Date</p>
+        <q-date v-model="end_date" label="End Date"></q-date>
+        <p>Forecasting Range</p>
+        <q-slider v-model="forecast_periods" :min="1" :max="36" :step="1" label label-always></q-slider>
+        <br />
+        <div class="row st-col">
+            <div class="st-col col-6 col-sm st-col">
+                <q-btn color="primary" label="TRAIN" v-on:click="train = !train" :loading="training" text-color="black" :disable="disable_train"></q-btn>
+                <q-btn color="primary" label="SAVE" v-on:click="save = !save" text-color="black" :disable="disable_train"></q-btn>
+            </div>
         </div>
     </div>
-    <div class="st-col col-6 col-sm st-module st-col ">
-        <plotly :data="traces" :layout="layout" :displaylogo="false"></plotly>
+    <div class="st-col col-6 col-sm st-module st-col">
+        <q-img :src="plot_data" v-if="plot_data"></q-img>
     </div>
 </div>
